@@ -5,21 +5,22 @@ pipeline {
   }
   stages {
     stage('Compile') {
-      steps {
-        sh “mvn compile”
-      }
-    }
-    
-    stages {
-        stage('Test') {
-            steps {
-                /* `make check` returns non-zero on test failures,
-                * using `true` to allow the Pipeline to continue nonetheless
-                */
-                sh 'make check || true' 
-                junit '**/target/*.xml' 
-            }
+        steps {
+        sh 'mvn compile'
         }
     }
+    stage('Test') {
+        steps { 
+        sh 'mvn test'    
+        }
+    }
+  post {
+        always {
+            junit 'build/reports/**/*.xml'
+        }
+    }
+
+
   }
+
 }
