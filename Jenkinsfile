@@ -6,20 +6,17 @@ pipeline {
   stages {
     stage('Compile') {
       steps {
-        sh “mvn compile”
-      }
+        sh 'mvn compile'
     }
-    
-    stages {
-        stage('Test') {
-            steps {
+  } 
+     stage('Test') {
+       steps {
                 /* `make check` returns non-zero on test failures,
                 * using `true` to allow the Pipeline to continue nonetheless
                 */
-                sh 'make check || true' 
-                junit '**/target/*.xml' 
-            }
-        }
-    }
-  }
+           sh 'make check || true' 
+           junit '**/target/*.xml' 
+       }
+     }
+   } 
 }
